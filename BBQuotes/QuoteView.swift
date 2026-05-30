@@ -32,8 +32,6 @@ struct QuoteView: View {
                             ProgressView()
                         case .success:
                             Text("\"\(vm.quote.quote)\"")
-                        case .failed(let error):
-                            Text(error.localizedDescription)
                                 .minimumScaleFactor(0.5) // for controlling long quotes.
                                 .padding()
                                 .multilineTextAlignment(.center)
@@ -59,11 +57,12 @@ struct QuoteView: View {
                                     .padding()
                                     .frame(maxWidth: .infinity)
                                     .background(.ultraThinMaterial)
-                                
-                                
                             }
                             .clipShape(.rect(cornerRadius: 50))
                             .frame(width: geometry.size.width/1.1, height: geometry.size.height/1.8)
+                            
+                        case .failed(let error):
+                            Text(error.localizedDescription)
                         }
                     }
                     Button("Get Random Quote"){
@@ -78,8 +77,6 @@ struct QuoteView: View {
                     Spacer(minLength: 100)
                 }
                 .frame(width:geometry.size.width)
-                
-
             }
             .frame(width: geometry.size.width , height: geometry.size.height)
             
