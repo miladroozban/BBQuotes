@@ -15,11 +15,15 @@ struct QuoteView: View {
         
         GeometryReader { geometry in
             ZStack {
+                
                 Image(show.lowercased().replacingOccurrences(of: " ", with: ""))
                     .resizable()
                     .scaledToFill()
+                
                 VStack {
+                    Spacer(minLength: 60)
                     Text("\"\(vm.quote.quote)\"")
+                        .minimumScaleFactor(0.5) // for controlling long quotes.
                         .padding()
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
@@ -33,7 +37,7 @@ struct QuoteView: View {
                                 image
                                     .resizable()
                                     .scaledToFill()
-                                    .clipShape(.rect(cornerRadius: 50))
+                                    
                             } placeholder: {
                                 ProgressView()
                             }
@@ -44,16 +48,28 @@ struct QuoteView: View {
                             .padding()
                             .frame(maxWidth: .infinity)
                             .background(.ultraThinMaterial)
-                        
+                            
                             
                     }
+                    .clipShape(.rect(cornerRadius: 50))
                     .frame(width: geometry.size.width/1.1, height: geometry.size.height/1.8)
+                    
+                    Button("Get Random Quote"){
+                        
+                    }
+                    .font(.title)
+                    .foregroundStyle(.white)
+                    .padding()
+                    .glassEffect( .regular.tint(.breakingBadGreen).interactive())
+                    Spacer(minLength: 100)
                 }
                 .frame(width:geometry.size.width)
-                .clipShape(.rect(cornerRadius:50))
+                
 
             }
             .frame(width: geometry.size.width , height: geometry.size.height)
+            
+            
         }
         .ignoresSafeArea()
     }
