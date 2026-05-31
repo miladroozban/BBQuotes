@@ -15,9 +15,6 @@ struct QuoteView: View {
         
         GeometryReader { geometry in
             ZStack {
-                
-                
-                
                 Image(show.lowercased().replacingOccurrences(of: " ", with: ""))
                     .resizable()
                     .scaledToFill()
@@ -30,6 +27,8 @@ struct QuoteView: View {
                             EmptyView()
                         case .fetching:
                             ProgressView()
+                        case .failed(let error):
+                            Text(error.localizedDescription)
                         case .success:
                             Text("\"\(vm.quote.quote)\"")
                                 .minimumScaleFactor(0.5) // for controlling long quotes.
@@ -60,9 +59,6 @@ struct QuoteView: View {
                             }
                             .clipShape(.rect(cornerRadius: 50))
                             .frame(width: geometry.size.width/1.1, height: geometry.size.height/1.8)
-                            
-                        case .failed(let error):
-                            Text(error.localizedDescription)
                         }
                     }
                     Button("Get Random Quote"){
@@ -79,8 +75,6 @@ struct QuoteView: View {
                 .frame(width:geometry.size.width)
             }
             .frame(width: geometry.size.width , height: geometry.size.height)
-            
-            
         }
         .ignoresSafeArea()
     }
