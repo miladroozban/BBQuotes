@@ -23,6 +23,7 @@ struct QuoteView: View {
                         Spacer(minLength: 60)
                         
                         switch vm.status {
+                            
                         case .notStarted:
                             EmptyView()
                         case .fetching:
@@ -31,6 +32,7 @@ struct QuoteView: View {
                             Text(error.localizedDescription)
                         case .success:
                             Text("\"\(vm.quote.quote)\"")
+                            
                                 .minimumScaleFactor(0.5) // for controlling long quotes.
                                 .padding()
                                 .multilineTextAlignment(.center)
@@ -69,7 +71,12 @@ struct QuoteView: View {
                     .font(.title)
                     .foregroundStyle(.white)
                     .padding()
-                    .glassEffect( .regular.tint(.breakingBadGreen).interactive())
+                    .glassEffect(
+                        .regular
+                            .tint(
+                                Color("\(show.replacingOccurrences(of: " ", with: ""))Button"))
+                            .interactive()
+                    )
                     Spacer(minLength: 100)
                 }
                 .frame(width:geometry.size.width)

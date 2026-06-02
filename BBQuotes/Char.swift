@@ -45,5 +45,5 @@ struct Char: Decodable {
         let deathData = try Data(
                 contentsOf: Bundle.main.url(forResource: "sampledeath", withExtension: "json")!)
         death = try deathDecoder.decode(Death.self, from: deathData)
-    }
+    }       
 }
