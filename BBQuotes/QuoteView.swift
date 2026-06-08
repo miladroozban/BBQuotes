@@ -73,8 +73,8 @@ struct QuoteView: View {
                     .padding()
                     .glassEffect(
                         .regular
-                            .tint(
-                                Color("\(show.replacingOccurrences(of: " ", with: ""))Button"))
+                        .tint(
+                            Color("\(show.replacingOccurrences(of: " ", with: ""))Button"))
                             .interactive()
                     )
                     Spacer(minLength: 100)
