@@ -10,9 +10,9 @@ import SwiftUI
 struct QuoteView: View {
     let vm = ViewModel()
     let show: String
+    @State var showCharacterInfo = false
     
     var body: some View {
-        
         GeometryReader { geometry in
             ZStack {
                 Image(show.lowercased().replacingOccurrences(of: " ", with: ""))
@@ -59,6 +59,9 @@ struct QuoteView: View {
                                     .frame(maxWidth: .infinity)
                                     .background(.ultraThinMaterial)
                             }
+                            .onTapGesture {
+                                showCharacterInfo.toggle()
+                            }
                             .clipShape(.rect(cornerRadius: 50))
                             .frame(width: geometry.size.width/1.1, height: geometry.size.height/1.8)
                         }
@@ -84,6 +87,9 @@ struct QuoteView: View {
             .frame(width: geometry.size.width , height: geometry.size.height)
         }
         .ignoresSafeArea()
+        .sheet(isPresented: $showCharacterInfo){
+            CharacterView(show: show, character: vm.character)
+        }
     }
 }
 
