@@ -77,14 +77,42 @@ struct CharacterView: View {
                                     .font(.subheadline)
                             }
                             Divider()
+                            // if character is dead it will show death data for that Character.
+                            // used optionals in Death model and unwraped with assurance of exicting data.
+                            DisclosureGroup("Status (Spoiler Alert):"){
+                                VStack(alignment:.leading){
+                                    Text(character.status)
+                                        .font(.title2)
+                                    if let death = character.death {
+                                        AsyncImage(
+                                            url: death.image) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .clipShape(.rect(cornerRadius: 25))
+                                
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                        if let details = death.details {
+                                            Text("How:\(details)")
+                                                .padding(.bottom,10)
+                                        }
+                                        if let lastWords = death.lastWords {
+                                            Text("last Words: \(lastWords)")
+                                        }
+                                        
+                                    }
+                                }
+                                .frame(maxWidth:.infinity,alignment:.leading)
+                            }.tint(.primary)
                         }
                         .frame(width:geo.size.width/1.35,
                                alignment:.leading)
-                        
+                        .padding(.bottom,50)
                     }
                     .scrollIndicators(.hidden)
-                    
-                    
+                
                 }
             }
         
