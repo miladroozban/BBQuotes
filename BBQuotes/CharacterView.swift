@@ -12,32 +12,38 @@ struct CharacterView: View {
     let character : Char
     var body: some View {
         GeometryReader() { geo in
-            
+            ScrollViewReader { proxy in
                 ZStack(alignment: .top) {
                     Image(show.replacingOccurrences(
                         of: " ",
                         with: "").lowercased())
-                        .resizable()
-                        .scaledToFit()
+                    .resizable()
+                    .scaledToFit()
                     ScrollView {
                         VStack {
-                            AsyncImage(
-                                url: character.images[0]) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .clipShape(.rect(cornerRadius: 25))
-                                        .padding(.top,70)
+                            TabView {
+                                ForEach(character.images, id: \.self) { characterImageURL in
                                     
-                                } placeholder: {
-                                    ProgressView()
+                                    AsyncImage(
+                                        url: characterImageURL) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                            
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
                                 }
-                                .frame(
-                                    width: geo.size.width/1.3,
-                                    height: geo.size.height/1.7
-                                )
-                         
-                        }.padding()
+                            }
+                            .tabViewStyle(.page)
+                            .frame(
+                                width: geo.size.width/1.2,
+                                height: geo.size.height/1.7
+                            )
+                            .clipShape(.rect(cornerRadius: 25))
+                            .padding(.top,70)
+                        }
+                        
                         VStack(alignment:.leading){
                             Text(character.name)
                                 .font(.largeTitle)
@@ -50,13 +56,13 @@ struct CharacterView: View {
                                 .font(.title2)
                             Text("Born: \(character.birthday)")
                             Divider()
-                                
+                            
                             Text("Occupations: ")
                             ForEach(character.occupations, id: \.self) { occupation in
                                 
                                 Text("• \(occupation)")
                                     .font(.subheadline)
-                                 
+                                
                             }
                             Divider()
                             
@@ -90,7 +96,17 @@ struct CharacterView: View {
                                                     .resizable()
                                                     .scaledToFit()
                                                     .clipShape(.rect(cornerRadius: 25))
-                                
+                                                    .onAppear {
+                                                        withAnimation {
+                                                            proxy
+                                                                .scrollTo(
+                                                                    1,
+                                                                    anchor: .bottom
+                                                                )
+                                                        }
+                                                    }
+                                                
+                                                
                                             } placeholder: {
                                                 ProgressView()
                                             }
@@ -110,11 +126,13 @@ struct CharacterView: View {
                         .frame(width:geo.size.width/1.35,
                                alignment:.leading)
                         .padding(.bottom,50)
+                        .id(1)
                     }
                     .scrollIndicators(.hidden)
-                
+                    
                 }
             }
+        }
         
 //        .preferredColorScheme(.dark)
         .ignoresSafeArea()
