@@ -15,7 +15,7 @@ struct QuoteView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Image(show.lowercased().replacingOccurrences(of: " ", with: ""))
+                Image(show.removeCaseAndSpace())
                     .resizable()
                     .scaledToFill()
                 VStack {
@@ -68,7 +68,7 @@ struct QuoteView: View {
                     }
                     Button("Get Random Quote"){
                         Task {
-                            await vm.getData(for: show)
+                            await vm.getQuoteData(for: show)
                         }
                     }
                     .font(.title)
@@ -77,7 +77,7 @@ struct QuoteView: View {
                     .glassEffect(
                         .regular
                         .tint(
-                            Color("\(show.replacingOccurrences(of: " ", with: ""))Button"))
+                            Color("\(show.removeSpace())Button"))
                             .interactive()
                     )
                     Spacer(minLength: 100)
@@ -94,6 +94,6 @@ struct QuoteView: View {
 }
 
 #Preview {
-    QuoteView(show: "Breaking Bad")
+    QuoteView(show: Constants.breakingBad)
         .preferredColorScheme(.dark)
 }
