@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct QuoteView: View {
+struct FetchView: View {
     let vm = ViewModel()
     let show: String
     @State var showCharacterInfo = false
@@ -94,6 +94,6 @@ struct QuoteView: View {
 }
 
 #Preview {
-    QuoteView(show: Constants.breakingBad)
+    FetchView(show: Constants.breakingBad)
         .preferredColorScheme(.dark)
 }
