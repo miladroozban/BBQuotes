@@ -30,7 +30,11 @@ struct FetchView: View {
                             ProgressView()
                         case .failed(let error):
                             Text(error.localizedDescription)
-                        case .success:
+                        case .successEpisode:
+                            VStack(alignment: .leading){
+                                EpisodeView(episode: vm.episode)
+                            }
+                        case .successQuote:
                             Text("\"\(vm.quote.quote)\"")
                             
                                 .minimumScaleFactor(0.5) // for controlling long quotes.
@@ -66,20 +70,40 @@ struct FetchView: View {
                             .frame(width: geometry.size.width/1.1, height: geometry.size.height/1.8)
                         }
                     }
-                    Button("Get Random Quote"){
-                        Task {
-                            await vm.getQuoteData(for: show)
+                    
+                    Spacer(minLength: 20)
+                    
+                    HStack {
+                        Button("Get Quote"){
+                            Task {
+                                await vm.getQuoteData(for: show)
+                            }
                         }
+                        .font(.title3)
+                        .foregroundStyle(.white)
+                        .padding()
+                        .glassEffect(
+                            .regular
+                                .tint(
+                                    Color("\(show.removeSpace())Button"))
+                                .interactive()
+                        ).padding(.horizontal,30)
+                        Spacer()
+                        Button("Get Episode"){
+                            Task {
+                                await vm.getEpisodeData(for: show)
+                            }
+                        }
+                        .font(.title3)
+                        .foregroundStyle(.white)
+                        .padding()
+                        .glassEffect(
+                            .regular
+                                .tint(
+                                    Color("\(show.removeSpace())Button"))
+                                .interactive()
+                        ).padding(.horizontal,30)
                     }
-                    .font(.title)
-                    .foregroundStyle(.white)
-                    .padding()
-                    .glassEffect(
-                        .regular
-                        .tint(
-                            Color("\(show.removeSpace())Button"))
-                            .interactive()
-                    )
                     Spacer(minLength: 100)
                 }
                 .frame(width:geometry.size.width)
